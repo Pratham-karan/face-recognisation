@@ -1,0 +1,16 @@
+anaconda prompt:
+    cd E:\projectmani     //desire file location
+      jupyter notebook    //this comand will open jupyter notebook
+
+
+anaconda prompt:  but run it as a administrator
+
+(base) PS C:\WINDOWS\system32> cd E:\projectmani  // changing the location
+(base) PS E:\projectmani> conda env list         //list of all the kernal environment 
+# conda environments:
+#
+base                  *  C:\Users\pratham karan\anaconda3
+tf_env                   C:\Users\pratham karan\anaconda3\envs\tf_env
+
+(base) PS E:\projectmani> conda activate tf_env  // tf env because i installed all the libraries in this environment//
+(tf_env) PS E:\projectmani> pip install seaborn  // now install any libraries 

@@ -1,0 +1,61 @@
+The user wants to see the evaluation metrics, which typically include accuracy, precision, recall, F1-score, and possibly a confusion matrix. To achieve this, I will need to modify the evaluation code to compute these metrics after evaluating the model on the test dataset.
+
+I will update the plan to include the calculation of these metrics using the sklearn library, which provides convenient functions for this purpose. The updated plan will involve:
+
+Importing necessary functions from sklearn.
+Calculating predictions on the test dataset.
+Computing and displaying the confusion matrix and classification report.
+I will now formulate the updated plan and prepare to implement these changes in the face.ipynb file.
+
+
+
+Here is the comprehensive plan for executing the task:
+
+Updated Plan:
+Load the Test Dataset: As previously planned.
+Evaluate the Model: Use the model.evaluate() method to calculate the accuracy.
+Calculate the Confusion Matrix: Use the predictions from the model to compute the confusion matrix.
+Display the Results: Print the accuracy, loss, and confusion matrix.
+Proposed Code Snippet to Add:
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+# Assuming you have a test dataset similar to the training dataset
+test_directory = "test/"  # Path to the test dataset
+test_classes = ["0", "1", "2", "3", "4", "5", "6"]  # Same classes as training
+
+# Load test data
+test_data = []
+for category in test_classes:
+    path = os.path.join(test_directory, category)
+    class_num = test_classes.index(category)
+    for img in os.listdir(path):
+        try:
+            img_array = cv2.imread(os.path.join(path, img))
+            new_array = cv2.resize(img_array, (img_size, img_size))
+            test_data.append([new_array, class_num])
+        except Exception as e:
+            pass
+
+# Prepare test data
+x_test = []
+y_test = []
+for feature, label in test_data:
+    x_test.append(feature)
+    y_test.append(label)
+
+x_test = np.array(x_test).reshape(-1, img_size, img_size, 3) / 255.0
+y_test = np.array(y_test)
+
+# Evaluate the model
+loss, accuracy = new_model.evaluate(x_test, y_test)
+print(f"Test Accuracy: {accuracy * 100:.2f}%")
+print(f"Test Loss: {loss:.4f}")
+
+# Predictions for confusion matrix
+y_pred = np.argmax(new_model.predict(x_test), axis=1)
+
+# Calculate and display confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=test_classes)
+disp.plot(cmap=plt.cm.Blues)
+plt.show()
